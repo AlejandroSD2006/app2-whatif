@@ -1,4 +1,12 @@
 import { createApp } from 'vue'
+import { clerkPlugin } from '@clerk/vue'
 import App from './App.vue'
 
-createApp(App).mount('#app')
+const publishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+const app = createApp(App, { clerkConfigured: Boolean(publishableKey) })
+
+if (publishableKey) {
+	app.use(clerkPlugin, { publishableKey })
+}
+
+app.mount('#app')

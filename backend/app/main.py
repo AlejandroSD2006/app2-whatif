@@ -1,4 +1,5 @@
 from clerk_backend_api import Clerk
+import httpx
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
@@ -9,6 +10,19 @@ from app.config import Settings
 from app.models import ScenarioRequest, ScenarioResult
 from app.providers.openrouter import OpenRouterProvider, ScenarioProvider
 from app.services.scenario import ScenarioService
+
+PROVIDER_ERROR = {
+    "error": {
+        "code": "ERROR_PROVEEDOR",
+        "message": "No se pudo generar la respuesta. Inténtalo de nuevo.",
+    }
+}
+PROVIDER_TIMEOUT = {
+    "error": {
+        "code": "TIEMPO_AGOTADO",
+        "message": "La generación tardó demasiado. Inténtalo de nuevo.",
+    }
+}
 
 
 def get_settings(request: Request) -> Settings:
@@ -91,7 +105,12 @@ def create_app(
         payload: ScenarioRequest,
         service: ScenarioService = Depends(get_scenario_service),
     ) -> ScenarioResult:
-        return await service.generate(payload)
+        try:
+            return await service.generate(payload)
+        except (httpx.TimeoutException, TimeoutError):
+            raise HTTPException(status_code=504, detail=PROVIDER_TIMEOUT) from None
+        except Exception:
+            raise HTTPException(status_code=502, detail=PROVIDER_ERROR) from None
 
     return application
 

@@ -20,13 +20,20 @@ const levels = [
 
 function submit() {
   const normalizedQuestion = question.value.trim()
+  const yearValue = year.value
   const numericYear = Number(year.value)
+  const emptyYear = yearValue === '' || (typeof yearValue === 'string' && yearValue.trim() === '')
 
   if (!normalizedQuestion) {
     error.value = 'Escribe una hipótesis para empezar.'
   } else if (normalizedQuestion.length > 280) {
     error.value = 'La hipótesis debe tener 280 caracteres o menos.'
-  } else if (!Number.isInteger(numericYear) || numericYear < 0 || numericYear > 3000) {
+  } else if (
+    emptyYear
+    || !Number.isInteger(numericYear)
+    || numericYear < 0
+    || numericYear > 3000
+  ) {
     error.value = 'El año debe ser un número entero entre 0 y 3000.'
   } else {
     error.value = ''

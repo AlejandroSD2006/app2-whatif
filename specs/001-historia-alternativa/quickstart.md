@@ -1,7 +1,7 @@
-# Quickstart de implementación
+# Quickstart
 
-Este documento fija comandos previstos para la implementación. No implica que dependencias estén
-instaladas ni que se hayan ejecutado tests o builds.
+Comandos comprobados para desarrollo local. El login real de Clerk y las llamadas reales a OpenRouter
+requieren credenciales propias; la suite rutinaria usa servicios simulados.
 
 ## Requisitos locales
 
@@ -19,9 +19,10 @@ Frontend: `VITE_CLERK_PUBLISHABLE_KEY` y `VITE_API_BASE_URL` (vacío/mismo orige
 con proxy). Solo `VITE_CLERK_PUBLISHABLE_KEY` es una clave; es pública y puede compilarse en el
 bundle. Ninguna clave secreta se configura con prefijo `VITE_`.
 
-Los archivos `.env.example` tendrán valores ficticios y nunca credenciales utilizables.
+Los `.env.example` tienen valores ficticios. No pongas secretos en archivos con prefijo `VITE_` ni
+en `.env.example`.
 
-## Comandos previstos
+## Backend
 
 Desde `backend/`:
 
@@ -42,14 +43,25 @@ npm run build
 La interfaz local usa la URL del backend configurada en `VITE_API_BASE_URL`; el backend permite
 solo los orígenes de desarrollo configurados en `CORS_ORIGINS`.
 
-## Verificación prevista
+## Frontend
 
-1. pytest unitario/HTTP con Clerk y OpenRouter simulados: no debe haber acceso de red externo.
-2. `npm run build` y pruebas de estados del formulario.
-3. Prueba manual separada de login/logout Clerk y solicitud autenticada; no se ejecutará desde la
-   suite automatizada ni se enviarán secretos a logs.
-4. Revisar que el body de éxito tenga solo `narrative` y `consequences`, y que un timeout simulado
-   termina en 504 a los 25 segundos configurados sin retries.
+Desde `frontend/`:
+
+```powershell
+npm ci
+npm run dev
+npm run build
+```
+
+Vite sirve la pantalla en `http://localhost:5173` y reenvía `/api` a `http://localhost:8000`.
+
+## Verificación
+
+1. `uv run pytest` ejecuta pruebas con Clerk y OpenRouter simulados; no contacta servicios reales.
+2. `npm run build` comprueba el bundle de producción de Vue.
+3. El login/logout real de Clerk es manual; sigue [docs/validacion-manual.md](../../docs/validacion-manual.md).
+4. Los resultados de comandos ejecutados y límites de la comprobación se registran en
+  [docs/validacion.md](../../docs/validacion.md).
 
 ## Despliegues previstos
 

@@ -1,4 +1,10 @@
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? ''
+const errorMessages = {
+  401: 'Tu sesión no es válida. Inicia sesión de nuevo.',
+  422: 'Revisa la hipótesis, el año y el tono.',
+  502: 'No se pudo generar una respuesta. Inténtalo de nuevo.',
+  504: 'La generación tardó demasiado. Inténtalo de nuevo.'
+}
 
 export async function processScenario(request, token) {
   if (!token?.trim()) {
@@ -20,7 +26,10 @@ export async function processScenario(request, token) {
   }
 
   if (!response.ok) {
-    throw new Error('No se pudo generar el escenario. Inténtalo de nuevo.')
+    throw new Error(
+      errorMessages[response.status]
+      ?? 'No se pudo generar el escenario. Inténtalo de nuevo.'
+    )
   }
 
   let result

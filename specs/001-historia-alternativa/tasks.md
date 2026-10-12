@@ -84,10 +84,10 @@ logout returning to the access state; the real Clerk check remains outside routi
 
 ### Implementation for User Story 2
 
-- [ ] T020 [US2] Initialize `@clerk/vue` with `VITE_CLERK_PUBLISHABLE_KEY` in `frontend/src/main.js`; keep secret Clerk/OpenRouter settings out of the frontend bundle
-- [ ] T021 [US2] Implement inline `<SignIn routing="hash">` and an in-screen Clerk sign-out action in `frontend/src/components/ClerkAccess.vue`; do not add vue-router, a modal, or profile screens
-- [ ] T022 [US2] Use Clerk `useAuth().getToken()` in `frontend/src/App.vue` and pass the current token to `frontend/src/services/api.js`; disable processing without a session and return the view to access state after logout
-- [ ] T023 [US2] Add a manual verification checklist for real Clerk sign-in/logout and post-logout 401/no-provider-call behavior in `docs/validacion-manual.md`
+- [X] T020 [US2] Initialize `@clerk/vue` with `VITE_CLERK_PUBLISHABLE_KEY` in `frontend/src/main.js`; keep secret Clerk/OpenRouter settings out of the frontend bundle
+- [X] T021 [US2] Implement inline `<SignIn routing="hash">` and an in-screen Clerk sign-out action in `frontend/src/components/ClerkAccess.vue`; do not add vue-router, a modal, or profile screens
+- [X] T022 [US2] Use Clerk `useAuth().getToken()` in `frontend/src/App.vue` and pass the current token to `frontend/src/services/api.js`; disable processing without a session and return the view to access state after logout
+- [X] T023 [US2] Add a manual verification checklist for real Clerk sign-in/logout and post-logout 401/no-provider-call behavior in `docs/validacion-manual.md`
 
 **Checkpoint**: Clerk access and logout stay on the single screen; the backend remains the
 authority and rejects requests without a valid token.
@@ -105,14 +105,14 @@ second call while pending, and no internal/provider details in returned errors.
 
 ### Tests for User Story 3
 
-- [ ] T024 [P] [US3] Test provider exception, timeout, empty output, malformed output, and consequences outside 3-5 items in `backend/tests/integration/test_scenario_errors.py`; assert 502/504 and safe error bodies
-- [ ] T025 [P] [US3] Test duplicate-submit blocking, loading/error states, clearing stale output as required, and Spanish visible messages in `frontend/tests/scenario-flow.manual.md`
+- [X] T024 [P] [US3] Test provider exception, timeout, empty output, malformed output, and consequences outside 3-5 items in `backend/tests/integration/test_scenario_errors.py`; assert 502/504 and safe error bodies
+- [X] T025 [P] [US3] Test duplicate-submit blocking, loading/error states, clearing stale output as required, and Spanish visible messages in `frontend/tests/scenario-flow.manual.md`
 
 ### Implementation for User Story 3
 
-- [ ] T026 [US3] Map provider failures and unusable output to HTTP 502 and timeout to HTTP 504 in `backend/app/main.py`; return only `{"error":{"code":"...","message":"..."}}` in Spanish
-- [ ] T027 [US3] Handle 401/422/502/504 and network failures in `frontend/src/services/api.js` and `frontend/src/App.vue`; display safe Spanish messages and never surface tokens, provider bodies, traces, or submitted text
-- [ ] T028 [US3] Disable submit while processing, prevent duplicate requests, and clear/replace the current result consistently in `frontend/src/App.vue`
+- [X] T026 [US3] Map provider failures and unusable output to HTTP 502 and timeout to HTTP 504 in `backend/app/main.py`; return only `{"error":{"code":"...","message":"..."}}` in Spanish
+- [X] T027 [US3] Handle 401/422/502/504 and network failures in `frontend/src/services/api.js` and `frontend/src/App.vue`; display safe Spanish messages and never surface tokens, provider bodies, traces, or submitted text
+- [X] T028 [US3] Disable submit while processing, prevent duplicate requests, and clear/replace the current result consistently in `frontend/src/App.vue`
 
 **Checkpoint**: Simulated failure cases map to the stable contract; pending UI blocks a second
 provider request and the user can correct input or retry after completion.
@@ -124,11 +124,11 @@ provider request and the user can correct input or retry after completion.
 **Purpose**: Verify the agreed quickstart and deployment packaging without performing real
 deployments.
 
-- [ ] T029 [P] Add the Vercel FastAPI function entrypoint in `backend/api/index.py` and deployment instructions in `docs/despliegue.md`; document locked `uv export --frozen --no-dev --no-emit-project -o requirements.txt` and verify no secret enters the frontend build
-- [ ] T030 [P] Add the frontend/backend Docker Compose services and same-origin `/api` proxy in `deploy/docker-compose.yml` and `deploy/proxy.conf`; inject secrets only at runtime and define no persistent data volume
-- [ ] T031 Update `README.md` and `specs/001-historia-alternativa/quickstart.md` with the verified local commands, environment-variable names, mock-only test policy, and separate Vercel/Docker paths
-- [ ] T032 Record the actual Fase 5 AI assistance and human review decision in `docs/uso-ia.md`; keep “Comprobación humana” empty until the user records their review
-- [ ] T033 Run backend tests, frontend production build, and the documented no-persistence/no-secret audit; record actual results in `docs/validacion.md`
+- [X] T029 [P] Add the Vercel FastAPI function entrypoint in `backend/api/index.py` and deployment instructions in `docs/despliegue.md`; document locked `uv export --frozen --no-dev --no-emit-project -o requirements.txt` and verify no secret enters the frontend build
+- [X] T030 [P] Add the frontend/backend Docker Compose services and same-origin `/api` proxy in `deploy/docker-compose.yml` and `deploy/proxy.conf`; inject secrets only at runtime and define no persistent data volume
+- [X] T031 Update `README.md` and `specs/001-historia-alternativa/quickstart.md` with the verified local commands, environment-variable names, mock-only test policy, and separate Vercel/Docker paths
+- [X] T032 Record the actual Fase 5 AI assistance and human review decision in `docs/uso-ia.md`; keep “Comprobación humana” empty until the user records their review
+- [X] T033 Run backend tests, frontend production build, and the documented no-persistence/no-secret audit; record actual results in `docs/validacion.md`
 
 ---
 

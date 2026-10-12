@@ -1,13 +1,18 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useAuth } from '@clerk/vue'
+import ClerkAccess from './components/ClerkAccess.vue'
 import HypothesisForm from './components/HypothesisForm.vue'
 import ScenarioResult from './components/ScenarioResult.vue'
 import { processScenario } from './services/api.js'
 
 const props = defineProps({
-  authToken: { type: String, default: '' }
+  clerkConfigured: { type: Boolean, default: false }
 })
 
+const auth = props.clerkConfigured ? useAuth() : null
+const isLoaded = computed(() => auth?.isLoaded.value ?? true)
+const isSignedIn = computed(() => auth?.isSignedIn.value ?? false)
 const result = ref(null)
 const busy = ref(false)
 const error = ref('')
@@ -17,14 +22,19 @@ async function generateScenario(request) {
   result.value = null
   error.value = ''
 
-  if (!props.authToken) {
+  if (!auth || !isSignedIn.value) {
     error.value = 'Inicia sesión para generar un escenario.'
     return
   }
 
   busy.value = true
   try {
-    result.value = await processScenario(request, props.authToken)
+    const token = await auth.getToken.value()
+    if (!token) {
+      error.value = 'Tu sesión ha caducado. Vuelve a iniciar sesión.'
+      return
+    }
+    result.value = await processScenario(request, token)
   } catch (cause) {
     error.value = cause instanceof Error
       ? cause.message
@@ -32,6 +42,11 @@ async function generateScenario(request) {
   } finally {
     busy.value = false
   }
+}
+
+function handleSignOut() {
+  result.value = null
+  error.value = ''
 }
 </script>
 
@@ -42,7 +57,17 @@ async function generateScenario(request) {
         <span class="brand-mark" aria-hidden="true">W</span>
         <span class="brand-name">WHAT IF<span> / ARCHIVO DE POSIBILIDADES</span></span>
       </a>
-      <span class="edition">HISTORIA ALTERNATIVA <span>·</span> N.º 001</span>
+      <div class="topbar-actions">
+        <span class="edition">HISTORIA ALTERNATIVA <span>·</span> N.º 001</span>
+        <ClerkAccess
+          v-if="isSignedIn"
+          :configured="props.clerkConfigured"
+          :loaded="isLoaded"
+          :signed-in="isSignedIn"
+          location="toolbar"
+          @signed-out="handleSignOut"
+        />
+      </div>
     </header>
 
     <main id="top">
@@ -55,7 +80,15 @@ async function generateScenario(request) {
       </section>
 
       <section class="workbench" aria-label="Generador de historia alternativa">
-        <div class="form-column">
+        <div v-if="!isSignedIn" class="form-column access-column">
+          <ClerkAccess
+            :configured="props.clerkConfigured"
+            :loaded="isLoaded"
+            :signed-in="isSignedIn"
+            location="inline"
+          />
+        </div>
+        <div v-else class="form-column">
           <HypothesisForm :busy="busy" @submit="generateScenario" />
           <p class="privacy-note"><span aria-hidden="true">●</span> La hipótesis solo vive durante esta sesión.</p>
         </div>
@@ -120,6 +153,12 @@ textarea {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #d6dfd4;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
 
 .brand {
@@ -213,6 +252,12 @@ h1 em {
   padding: 36px clamp(22px, 4vw, 54px) 28px 0;
 }
 
+.access-column {
+  display: flex;
+  align-items: center;
+  min-height: 440px;
+}
+
 .privacy-note {
   display: flex;
   align-items: center;
@@ -268,6 +313,10 @@ h1 em {
     font-size: 9px;
   }
 
+  .topbar-actions {
+    gap: 8px;
+  }
+
   .intro {
     padding: 36px 0 28px;
   }
@@ -282,6 +331,10 @@ h1 em {
 
   .form-column {
     padding: 28px 0 24px;
+  }
+
+  .access-column {
+    min-height: 380px;
   }
 }
 
