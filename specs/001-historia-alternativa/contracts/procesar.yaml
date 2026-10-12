@@ -1,0 +1,107 @@
+openapi: 3.1.0
+info:
+  title: API de historia alternativa
+  version: 1.0.0
+  description: Contrato de procesamiento de hipótesis para la única pantalla.
+servers:
+  - url: http://localhost:8000
+    description: Desarrollo local
+paths:
+  /api/procesar:
+    post:
+      operationId: procesarHipotesis
+      summary: Genera un escenario alternativo
+      security:
+        - ClerkBearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScenarioRequest'
+      responses:
+        '200':
+          description: Escenario generado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioResponse'
+        '401':
+          description: Sesión ausente o no autorizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Cuerpo o campos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '502':
+          description: Proveedor fallido o salida no utilizable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '504':
+          description: Tiempo de espera del proveedor agotado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    ClerkBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ScenarioRequest:
+      type: object
+      additionalProperties: false
+      required: [question, year, unrealismLevel]
+      properties:
+        question:
+          type: string
+          minLength: 1
+          maxLength: 280
+          description: Se valida después de quitar espacios exteriores.
+        year:
+          type: integer
+          minimum: 0
+          maximum: 3000
+        unrealismLevel:
+          type: string
+          enum: [realista, ilusionante, descerebrado]
+    ScenarioResponse:
+      type: object
+      additionalProperties: false
+      required: [narrative, consequences]
+      properties:
+        narrative:
+          type: string
+          minLength: 1
+        consequences:
+          type: array
+          minItems: 3
+          maxItems: 5
+          items:
+            type: string
+            minLength: 1
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              enum: [NO_AUTORIZADO, ENTRADA_INVALIDA, ERROR_PROVEEDOR, TIEMPO_AGOTADO]
+            message:
+              type: string
+              minLength: 1

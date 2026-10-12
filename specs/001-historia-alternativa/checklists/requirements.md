@@ -26,6 +26,7 @@
 
 - [x] Los requisitos funcionales tienen un comportamiento comprobable.
 - [x] Los escenarios cubren el flujo principal, autenticación y errores.
+- [x] El ciclo de inicio y cierre de sesión queda comprobable sin una vista adicional.
 - [x] Los criterios de éxito permiten verificar la función sin datos inventados de rendimiento.
 - [x] Las decisiones abiertas de contrato y presentación de Clerk están resueltas.
 - [x] No se describen soluciones técnicas más allá del contrato funcional acordado.

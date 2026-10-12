@@ -59,6 +59,9 @@ rechaza antes de consultar a la IA, y que una petición autorizada puede complet
    **Then** el backend la rechaza aunque la interfaz permita intentar el envío.
 4. **Given** que una persona aún no está autenticada, **When** abre la pantalla,
    **Then** encuentra el acceso integrado en esa misma pantalla, sin abrir un modal ni cambiar de ruta.
+5. **Given** que una persona tiene una sesión activa, **When** elige cerrar sesión en la misma
+  pantalla, **Then** Clerk cierra la sesión y la interfaz vuelve al estado de acceso; los envíos
+  posteriores sin autenticación se rechazan antes de consultar a la IA.
 
 ---
 
@@ -124,6 +127,9 @@ proveedor; verificar el estado visible y el código de error acordado.
 - **FR-013**: El sistema MUST poder utilizarse de nuevo con otra entrada, sin historial ni acumulación de resultados.
 - **FR-014**: El sistema MUST evitar conservar entradas y resultados en almacenamiento persistente o registros técnicos. Su presencia transitoria durante el procesamiento y visualización está permitida.
 - **FR-015**: Los mensajes visibles de interfaz y error MUST estar en español y no revelar trazas, secretos, tokens, texto enviado, respuesta completa del proveedor ni detalles internos.
+- **FR-016**: La persona usuaria MUST poder cerrar su sesión de Clerk desde la misma pantalla. Tras
+  cerrar la sesión, cualquier solicitud de procesamiento sin volver a autenticarse MUST recibir
+  HTTP 401 antes de consultar a la IA.
 
 ### Processing Contract
 
@@ -160,6 +166,8 @@ respuesta completa del proveedor.
   los códigos 502, 504 y 502, sin devolver detalles internos.
 - **SC-005**: Una petición pendiente no puede duplicarse desde la interfaz y un resultado nuevo
   reemplaza al anterior sin dejar un historial recuperable.
+- **SC-006**: La prueba real manual de Clerk demuestra iniciar sesión, cerrar sesión desde la misma
+  pantalla y recibir 401 sin llamada a IA después del cierre.
 
 ## Assumptions
 
