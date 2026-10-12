@@ -33,11 +33,11 @@ verification and test doubles unblock the API story; the visual Clerk flow is de
 **Purpose**: Shared backend configuration, authentication enforcement and external-service test
 boundaries. These tasks block story implementation.
 
-- [ ] T005 Implement typed environment settings, 25,000 ms provider timeout, configured Clerk issuer/authorized parties, OpenRouter model, and configurable CORS origins in `backend/app/config.py`
-- [ ] T006 Create the FastAPI application, CORS middleware, request-validation error translation, and dependency wiring in `backend/app/main.py`
-- [ ] T007 Implement a mockable Clerk request adapter in `backend/app/auth.py`; validate signature/expiry with the official SDK, then enforce configured `iss` and authorized-party/audience claims before protected processing
-- [ ] T008 Add reusable fake Clerk verifier and fake OpenRouter client fixtures in `backend/tests/conftest.py`; ensure test configuration never reads real credentials
-- [ ] T009 [P] Test missing, invalid, expired, and wrong-issuer/party tokens return 401 before the fake provider is called in `backend/tests/integration/test_auth.py`
+- [X] T005 Implement typed environment settings, 25,000 ms provider timeout, configured Clerk issuer/authorized parties, OpenRouter model, and configurable CORS origins in `backend/app/config.py`
+- [X] T006 Create the FastAPI application, CORS middleware, request-validation error translation, and dependency wiring in `backend/app/main.py`
+- [X] T007 Implement a mockable Clerk request adapter in `backend/app/auth.py`; validate signature/expiry with the official SDK, then enforce configured `iss` and authorized-party/audience claims before protected processing
+- [X] T008 Add reusable fake Clerk verifier and fake OpenRouter client fixtures in `backend/tests/conftest.py`; ensure test configuration never reads real credentials
+- [X] T009 [P] Test missing, invalid, expired, and wrong-issuer/party tokens return 401 before the fake provider is called in `backend/tests/integration/test_auth.py`
 
 **Checkpoint**: A protected FastAPI test request can use a fake authorized identity; rejected
 requests make zero provider calls.
@@ -54,19 +54,19 @@ assert HTTP 200, exactly `narrative` and `consequences` in the response, and one
 
 ### Tests for User Story 1
 
-- [ ] T010 [P] [US1] Test strict request boundaries in `backend/tests/unit/test_models.py`: trimmed `question` is 1-280 characters, 281 and whitespace-only are rejected; `year` is an integer from 0 through 3000 inclusive with no boolean/coercion acceptance; `unrealismLevel` is exactly `realista`, `ilusionante`, or `descerebrado`
-- [ ] T011 [P] [US1] Test authorized success and invalid HTTP requests in `backend/tests/integration/test_scenario_api.py`: success has only `narrative` and `consequences`, 3-5 non-empty consequences, and exactly one provider call; invalid input returns 422 and zero provider calls
+- [X] T010 [P] [US1] Test strict request boundaries in `backend/tests/unit/test_models.py`: trimmed `question` is 1-280 characters, 281 and whitespace-only are rejected; `year` is an integer from 0 through 3000 inclusive with no boolean/coercion acceptance; `unrealismLevel` is exactly `realista`, `ilusionante`, or `descerebrado`
+- [X] T011 [P] [US1] Test authorized success and invalid HTTP requests in `backend/tests/integration/test_scenario_api.py`: success has only `narrative` and `consequences`, 3-5 non-empty consequences, and exactly one provider call; invalid input returns 422 and zero provider calls
 
 ### Implementation for User Story 1
 
-- [ ] T012 [US1] Define strict Pydantic request, scenario result, and provider-output models in `backend/app/models.py` using the exact constraints in `specs/001-historia-alternativa/data-model.md`
-- [ ] T013 [US1] Isolate the official OpenRouter client in `backend/app/providers/openrouter.py`; request JSON output with a 25,000 ms timeout and `RetryConfig(strategy="none", ...)`, and expose one mockable async operation
-- [ ] T014 [US1] Implement the Spanish prompt and scenario use case in `backend/app/services/scenario.py`; validate the provider result and discard fields outside `narrative` and `consequences`
-- [ ] T015 [US1] Implement authenticated `POST /api/procesar` in `backend/app/main.py`, composing request validation, auth dependency, scenario service, and success response without storing request/result data
-- [ ] T016 [US1] Implement the single-endpoint JSON client in `frontend/src/services/api.js`; send the supplied Bearer token and typed request, and return only the successful `narrative` and `consequences`
-- [ ] T017 [P] [US1] Implement question/year/level inputs and frontend validation in `frontend/src/components/HypothesisForm.vue`, mirroring the documented limits without replacing backend validation
-- [ ] T018 [P] [US1] Render narrative and consequence strings as text in `frontend/src/components/ScenarioResult.vue`; do not interpret generated output as HTML
-- [ ] T019 [US1] Compose the one-screen form and current result in `frontend/src/App.vue`; replace the previous result after a successful new request and keep all state in memory only
+- [X] T012 [US1] Define strict Pydantic request, scenario result, and provider-output models in `backend/app/models.py` using the exact constraints in `specs/001-historia-alternativa/data-model.md`
+- [X] T013 [US1] Isolate the official OpenRouter client in `backend/app/providers/openrouter.py`; request JSON output with a 25,000 ms timeout and `RetryConfig(strategy="none", ...)`, and expose one mockable async operation
+- [X] T014 [US1] Implement the Spanish prompt and scenario use case in `backend/app/services/scenario.py`; validate the provider result and discard fields outside `narrative` and `consequences`
+- [X] T015 [US1] Implement authenticated `POST /api/procesar` in `backend/app/main.py`, composing request validation, auth dependency, scenario service, and success response without storing request/result data
+- [X] T016 [US1] Implement the single-endpoint JSON client in `frontend/src/services/api.js`; send the supplied Bearer token and typed request, and return only the successful `narrative` and `consequences`
+- [X] T017 [P] [US1] Implement question/year/level inputs and frontend validation in `frontend/src/components/HypothesisForm.vue`, mirroring the documented limits without replacing backend validation
+- [X] T018 [P] [US1] Render narrative and consequence strings as text in `frontend/src/components/ScenarioResult.vue`; do not interpret generated output as HTML
+- [X] T019 [US1] Compose the one-screen form and current result in `frontend/src/App.vue`; replace the previous result after a successful new request and keep all state in memory only
 
 **Checkpoint**: With an authorized fake identity and fake provider, the endpoint and same-screen
 scenario flow work; the success path calls the provider once.

@@ -1,7 +1,20 @@
+import os
 from types import SimpleNamespace
+from unittest.mock import AsyncMock
 
 import pytest
 from clerk_backend_api.security.types import AuthStatus, RequestState
+
+os.environ.update(
+    {
+        "CLERK_SECRET_KEY": "sk_test_never_used",
+        "CLERK_ISSUER": "https://example.clerk.accounts.dev",
+        "CLERK_AUTHORIZED_PARTIES": '["http://localhost:5173"]',
+        "OPENROUTER_API_KEY": "sk-or-test-never-used",
+        "OPENROUTER_MODEL": "test-model",
+        "CORS_ORIGINS": '["http://localhost:5173"]',
+    }
+)
 
 
 @pytest.fixture
@@ -25,12 +38,23 @@ def clerk_state_factory():
 @pytest.fixture
 def fake_clerk_factory():
     class FakeClerk:
-        def __init__(self, state: RequestState):
+        def __init__(self, state: RequestState, error: Exception | None = None):
             self.state = state
+            self.error = error
             self.calls: list[tuple[object, object]] = []
 
         def authenticate_request(self, request: object, options: object) -> RequestState:
             self.calls.append((request, options))
+            if self.error is not None:
+                raise self.error
             return self.state
 
-    return FakeClerk
+    def create(state: RequestState, error: Exception | None = None) -> FakeClerk:
+        return FakeClerk(state, error)
+
+    return create
+
+
+@pytest.fixture
+def fake_openrouter_client() -> AsyncMock:
+    return AsyncMock()
