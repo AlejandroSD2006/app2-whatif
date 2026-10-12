@@ -1,12 +1,3 @@
-<!--
-Informe de impacto de sincronización
-Versión: sin constitución previa → 1.0.0 (constitución inicial)
-Principios modificados: ninguno; se establecen cinco principios iniciales.
-Secciones añadidas: Additional Constraints; Development Workflow and Human Review.
-Secciones eliminadas: ninguna con contenido previo.
-Pendientes: la fecha de ratificación requiere aceptación humana; retirar este informe antes del commit.
--->
-
 # App2 WhatIf Constitution
 
 ## Core Principles
@@ -82,7 +73,7 @@ del enunciado. Una propuesta que contradiga una regla debe rechazarse o aclarars
 implementarla. Toda modificación requiere revisión humana, justificación y actualización de la
 versión: MAJOR para cambios incompatibles, MINOR para principios o requisitos nuevos y PATCH para
 aclaraciones sin cambio de obligación. La revisión de especificación, plan, tareas, código y pruebas
-debe comprobar el cumplimiento de estos principios. La fecha de ratificación queda pendiente hasta
-que el usuario revise y acepte esta constitución.
+debe comprobar el cumplimiento de estos principios. El usuario ratificó esta constitución al
+autorizar la Fase 3.
 
-**Version**: 1.0.0 | **Ratified**: TODO(RATIFICATION_DATE): pendiente de aceptación humana | **Last Amended**: 2026-10-12
+**Version**: 1.0.0 | **Ratified**: 2026-10-12 | **Last Amended**: 2026-10-12
