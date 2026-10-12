@@ -21,10 +21,10 @@ verification and test doubles unblock the API story; the visual Clerk flow is de
 
 **Purpose**: Establish the two application roots and reproducible local tooling.
 
-- [ ] T001 Create the planned `backend/app/`, `backend/app/providers/`, `backend/app/services/`, `backend/tests/unit/`, `backend/tests/integration/`, `backend/api/`, `frontend/src/components/`, `frontend/src/services/`, `frontend/tests/`, and `deploy/` directories
-- [ ] T002 Define exact Python runtime and backend/dev dependencies in `backend/pyproject.toml`, resolve and commit `backend/uv.lock`
-- [ ] T003 Define exact Node runtime and Vue/Vite/Tailwind/Clerk dependencies and scripts in `frontend/package.json`, `frontend/package-lock.json`, `frontend/vite.config.js`, and `frontend/index.html`
-- [ ] T004 Add fictional environment templates in `backend/.env.example` and `frontend/.env.example`; exclude secrets, `.venv`, `node_modules`, and build output in `.gitignore` and `.dockerignore`
+- [X] T001 Create the planned `backend/app/`, `backend/app/providers/`, `backend/app/services/`, `backend/tests/unit/`, `backend/tests/integration/`, `backend/api/`, `frontend/src/components/`, `frontend/src/services/`, `frontend/tests/`, and `deploy/` directories
+- [X] T002 Define exact Python runtime and backend/dev dependencies in `backend/pyproject.toml`, resolve and commit `backend/uv.lock`
+- [X] T003 Define exact Node runtime and Vue/Vite/Tailwind/Clerk dependencies and scripts in `frontend/package.json`, `frontend/package-lock.json`, `frontend/vite.config.js`, and `frontend/index.html`
+- [X] T004 Add fictional environment templates in `backend/.env.example` and `frontend/.env.example`; exclude secrets, `.venv`, `node_modules`, and build output in `.gitignore` and `.dockerignore`
 
 ---
 

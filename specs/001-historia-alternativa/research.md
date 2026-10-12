@@ -24,7 +24,7 @@ integraciones.
 |---|---:|
 | Python | 3.12 |
 | FastAPI | 0.143.0 |
-| Pydantic | 2.14.1 |
+| Pydantic | 2.12.5 (compatible with OpenRouter SDK's `<2.13` requirement) |
 | pydantic-settings | 2.15.0 |
 | Uvicorn | 0.54.0 |
 | `clerk-backend-api` | 7.0.0 |

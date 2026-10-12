@@ -16,7 +16,7 @@ OpenRouter.
 ## Technical Context
 
 **Language/Version**: Python 3.12; JavaScript/TypeScript del ecosistema Node.js 22.18.0.  
-**Primary Dependencies**: FastAPI 0.143.0, Pydantic 2.14.1, pydantic-settings 2.15.0, Uvicorn
+**Primary Dependencies**: FastAPI 0.143.0, Pydantic 2.12.5, pydantic-settings 2.15.0, Uvicorn
 0.54.0, Clerk Backend SDK `clerk-backend-api` 7.0.0, OpenRouter SDK `openrouter` 1.3.43;
 Vue 3.5.43, Vite 8.3.4, `@vitejs/plugin-vue` 6.0.10, Tailwind CSS 4.3.3 con
 `@tailwindcss/vite` 4.3.3 y Clerk Vue SDK `@clerk/vue` 2.5.12. Desarrollo y tests: pytest
