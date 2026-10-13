@@ -1,5 +1,10 @@
 # Despliegue
 
+> **Nota:** el plan actual es desplegar la aplicación completa en AWS (una instancia EC2 con Docker
+> Compose). La guía paso a paso está en [despliegue-aws-ec2.md](despliegue-aws-ec2.md). La opción de
+> Vercel de este documento se dejó preparada en su momento, pero ya no es la que se va a usar; se
+> mantiene aquí solo como referencia.
+
 No se realizan despliegues desde las pruebas. Configura las credenciales y dominios en cada
 plataforma antes de aceptar tráfico real.
 
