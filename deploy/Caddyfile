@@ -1,0 +1,3 @@
+whatif.casacam.net {
+    reverse_proxy frontend:80
+}
