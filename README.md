@@ -1,5 +1,7 @@
 # App2 WhatIf — ¿Qué habría pasado si...?
 
+Alejandro Suárez Durán y Mario Hernández Padial
+
 SPA de una sola pantalla para explorar historias alternativas, protegida con inicio de sesión. Vue 3/Vite presenta el acceso de Clerk y el formulario; FastAPI valida la sesión y llama una vez a OpenRouter. No hay persistencia. El proyecto se ha desarrollado en clase por Mario Hernández y Alejandro Suárez, como segunda versión de la aplicación [¿Qué habría pasado si...?](../01appdesarrollo-whatif/README.md).
 
 ## Datos del documento
