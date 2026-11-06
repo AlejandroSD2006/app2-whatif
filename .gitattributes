@@ -1,0 +1,3 @@
+# Archivos generados por Spec Kit: no cuentan en las estadisticas de lenguajes del repo
+.specify/** linguist-generated=true
+.github/skills/** linguist-generated=true
